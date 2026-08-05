@@ -1,0 +1,10 @@
+# IONOS / Apache — SPA rewrite for React Router
+# Any request that is not a real file or folder is served index.html,
+# so deep links like /awards survive a page refresh.
+Options -MultiViews
+RewriteEngine On
+RewriteBase /
+RewriteRule ^index\.html$ - [L]
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule . /index.html [L]

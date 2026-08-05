@@ -1,0 +1,54 @@
+# CI/CD for GitHub Pages (spec 002, plan §2c)
+# Every push to main: install → build → publish. No manual uploads, ever.
+name: Deploy to GitHub Pages
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch: # adds a manual "Run workflow" button in the Actions tab
+
+# The deploy actions authenticate via short-lived OIDC tokens — no stored secrets.
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# If two pushes race, keep only the newest deployment.
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out the repo
+        uses: actions/checkout@v4
+
+      - name: Set up Node 22
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install exact dependencies from the lockfile
+        run: npm ci
+
+      - name: Build (tsc + vite + 404 fallback)
+        run: npm run build
+
+      - name: Upload site artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: dist
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
