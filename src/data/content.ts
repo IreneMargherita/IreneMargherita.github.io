@@ -177,11 +177,9 @@ export const profile = {
 
 export const nav: NavItem[] = [
   { label: 'home', to: '/' },
-  { label: 'about', to: '/about' },
   { label: 'projects', to: '/projects' },
   { label: 'experience', to: '/experience' },
   { label: 'research', to: '/research' },
-  { label: 'contact', to: '/contact' },
 ];
 
 /** Home page stats row — TODO: replace with your real numbers */
@@ -540,6 +538,4 @@ export const contact = {
 
 export const footer = {
   line: 'designed & built by Carol Eunice Gudumotu',
-  stack: 'React 18 · TypeScript · Vite · Tailwind',
-  sourceNote: 'v0.1.0 — MVP',
 };

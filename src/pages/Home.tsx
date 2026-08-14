@@ -43,9 +43,11 @@ export default function Home() {
               <Link to="/projects" className="btn-primary">
                 view projects →
               </Link>
-              <Link to="/contact" className="btn-ghost">
+              {/* /contact page retired — email directly. A mailto: is a plain
+                  <a>; <Link> is only for in-app routes. */}
+              <a href={`mailto:${profile.email}`} className="btn-ghost">
                 get in touch
-              </Link>
+              </a>
             </div>
 
             <div className="mt-6">
@@ -115,9 +117,6 @@ export default function Home() {
             <div className="mt-7 flex flex-wrap gap-4">
               <Link to="/research" className="link font-mono text-sm">
                 read the research →
-              </Link>
-              <Link to="/about" className="link font-mono text-sm">
-                more about me →
               </Link>
             </div>
           </div>

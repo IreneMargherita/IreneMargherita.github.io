@@ -27,9 +27,8 @@ export default function Footer() {
           ))}
         </ul>
 
-        <p className="font-mono text-[11px] text-fg-faint">
-          {footer.stack} · {footer.sourceNote}
-        </p>
+        {/* The build-stack line ("React · Vite · …") was removed on purpose:
+            the site should talk about Carol's work, not its own plumbing. */}
       </div>
     </footer>
   );
