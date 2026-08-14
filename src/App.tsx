@@ -14,8 +14,6 @@ const About = lazy(() => import('./pages/About'));
 const Projects = lazy(() => import('./pages/Projects'));
 const Experience = lazy(() => import('./pages/Experience'));
 const Research = lazy(() => import('./pages/Research'));
-const Awards = lazy(() => import('./pages/Awards'));
-const Testimonials = lazy(() => import('./pages/Testimonials'));
 const Contact = lazy(() => import('./pages/Contact'));
 const NotFound = lazy(() => import('./pages/NotFound'));
 
@@ -30,9 +28,10 @@ export default function App() {
           <Route path="/projects" element={<Projects />} />
           <Route path="/experience" element={<Experience />} />
           <Route path="/research" element={<Research />} />
-          <Route path="/awards" element={<Awards />} />
-          <Route path="/testimonials" element={<Testimonials />} />
           <Route path="/contact" element={<Contact />} />
+          {/* /awards and /testimonials were retired 2026-08-14 — the terminal
+              404 below now answers those URLs, which is the correct HTTP
+              story for a page that no longer exists. */}
           <Route path="*" element={<NotFound />} />
         </Route>
       </Routes>

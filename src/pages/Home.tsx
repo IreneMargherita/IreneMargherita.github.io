@@ -108,7 +108,8 @@ export default function Home() {
                 What I&rsquo;m building now applies that framing to proprietary trading systems.
               </p>
               <p>
-                The panel to the right summarises where that work stands. Numbers update as the work does.
+                The terminal to the right is live telemetry — repositories, languages, and current focus,
+                read straight from my GitHub.
               </p>
             </div>
             <div className="mt-7 flex flex-wrap gap-4">
@@ -174,7 +175,9 @@ export default function Home() {
             title="Reviewing my credentials?"
             lead="Investors, researchers, and immigration reviewers — everything you need is organized below."
           />
-          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+          {/* Two cards now (awards & testimonials pages retired) — a 2-col
+              grid; four columns would leave a half-empty row. */}
+          <div className="grid gap-4 sm:grid-cols-2">
             {evidenceLinks.map((e) => (
               <Link key={e.to} to={e.to} className="card card-hover group p-5">
                 <p className="font-mono text-sm font-semibold text-accent">{e.label} →</p>

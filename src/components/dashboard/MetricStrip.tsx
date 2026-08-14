@@ -1,7 +1,14 @@
-import { metrics } from '../../data/panel'
 import { useCountUp } from '../../hooks/useInView'
 
-function Metric({ label, value, suffix, raw, active }: { label: string; value: number; suffix: string; raw?: boolean; active: boolean }) {
+export interface Metric {
+  label: string
+  value: number
+  suffix?: string
+  /** true = show as-is (years must not count up from 0 or grow commas). */
+  raw?: boolean
+}
+
+function MetricCell({ label, value, suffix = '', raw, active }: Metric & { active: boolean }) {
   // Hooks must run unconditionally — so we always call useCountUp and
   // simply ignore its result for `raw` values. Wrapping a hook in an `if`
   // is the classic React crash: the hook order changes between renders.
@@ -14,13 +21,9 @@ function Metric({ label, value, suffix, raw, active }: { label: string; value: n
 
   return (
     <div className="min-w-0">
-      {/* No `truncate`: at this width "Publications" would clip to
-          "Publicati…". Wrapping to two lines is always better than
-          hiding the label. */}
       {/* min-h reserves room for a second line so every VALUE in the strip
-          shares one baseline, even when only one label wraps. Without it
-          the row goes ragged the moment a label gets long. */}
-      <div className="mono-label !leading-[1.35] min-h-[2.7em]">{label}</div>
+          shares one baseline, even when only one label wraps. */}
+      <div className="mono-label min-h-[2.7em] !leading-[1.35]">{label}</div>
       <div className="mt-1 font-mono text-[13px] tabular-nums text-fg">
         {text}
         {suffix}
@@ -29,11 +32,17 @@ function Metric({ label, value, suffix, raw, active }: { label: string; value: n
   )
 }
 
-export default function MetricStrip({ inView }: { inView: boolean }) {
+/**
+ * The numeric readout row. Metrics are passed IN rather than imported —
+ * the parent decides whether they come from the live GitHub API or the
+ * static fallback, and this component neither knows nor cares. That
+ * one-way flow ("data down, events up") is the core React discipline.
+ */
+export default function MetricStrip({ inView, metrics }: { inView: boolean; metrics: Metric[] }) {
   return (
     <div className="grid grid-cols-4 gap-3">
       {metrics.map((m) => (
-        <Metric key={m.label} label={m.label} value={m.value} suffix={m.suffix} raw={m.raw ?? false} active={inView} />
+        <MetricCell key={m.label} {...m} active={inView} />
       ))}
     </div>
   )

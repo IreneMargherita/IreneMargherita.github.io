@@ -19,7 +19,7 @@ const WEEKS = 52;
 const DAYS = 7;
 
 /** Yellow intensity ramp: level 0 (none) → level 4 (max) */
-const RAMP = ['bg-line', 'bg-data/30', 'bg-data/55', 'bg-data/80', 'bg-data'];
+const RAMP = ['bg-line', 'bg-accent/25', 'bg-accent/50', 'bg-accent/75', 'bg-accent'];
 
 function mulberry32(seed: number) {
   return function () {
