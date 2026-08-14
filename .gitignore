@@ -20,3 +20,6 @@ npm-debug.log*
 # Env (none used yet — static site — but just in case)
 .env
 .env.*
+
+# Scratch: files staged for manual deletion (Cowork cannot delete on Windows)
+_to_delete
