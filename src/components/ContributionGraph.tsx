@@ -19,7 +19,7 @@ const WEEKS = 52;
 const DAYS = 7;
 
 /** Yellow intensity ramp: level 0 (none) → level 4 (max) */
-const RAMP = ['#151B26', '#3D3300', '#806B00', '#C4A300', '#FFD60A'];
+const RAMP = ['bg-line', 'bg-data/30', 'bg-data/55', 'bg-data/80', 'bg-data'];
 
 function mulberry32(seed: number) {
   return function () {
@@ -55,10 +55,10 @@ export default function ContributionGraph() {
   return (
     <div className="card overflow-x-auto p-5">
       <div className="mb-3 flex items-center justify-between gap-4">
-        <p className="font-mono text-xs text-mist-400">
-          <span className="text-sunshine-500">$</span> git log --graph — a year of building
+        <p className="font-mono text-xs text-fg-faint">
+          <span className="text-accent">$</span> git log --graph — a year of building
         </p>
-        <p className="hidden font-mono text-[11px] text-mist-600 sm:block">
+        <p className="hidden font-mono text-[11px] text-fg-faint sm:block">
           placeholder data · wire to GitHub API later
         </p>
       </div>
@@ -71,23 +71,16 @@ export default function ContributionGraph() {
         {CELLS.map((week, w) => (
           <div key={w} className="flex flex-col gap-[3px]">
             {week.map((level, d) => (
-              <span
-                key={d}
-                className="h-[10px] w-[10px] rounded-[2px]"
-                style={{
-                  backgroundColor: RAMP[level],
-                  boxShadow: level === 4 ? '0 0 6px rgba(255,214,10,0.5)' : undefined,
-                }}
-              />
+              <span key={d} className={`h-[10px] w-[10px] rounded-[2px] ${RAMP[level]}`} />
             ))}
           </div>
         ))}
       </div>
 
-      <div className="mt-3 flex items-center justify-end gap-1.5 font-mono text-[11px] text-mist-600">
+      <div className="mt-3 flex items-center justify-end gap-1.5 font-mono text-[11px] text-fg-faint">
         less
         {RAMP.map((c) => (
-          <span key={c} className="h-[10px] w-[10px] rounded-[2px]" style={{ backgroundColor: c }} />
+          <span key={c} className={`h-[10px] w-[10px] rounded-[2px] ${c}`} />
         ))}
         more
       </div>

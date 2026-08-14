@@ -1,10 +1,40 @@
 <!doctype html>
-<html lang="en" class="dark">
+<html lang="en">
   <head>
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="theme-color" content="#0B0E14" />
+    <meta name="theme-color" content="#FBF9F3" />
+
+    <!-- ==================================================================
+         ANTI-FLASH THEME BOOT
+         ------------------------------------------------------------------
+         This runs BEFORE the browser paints anything and before React loads.
+         Order matters: <head> scripts are render-blocking, so by the time
+         the first pixel is drawn, <html> already carries the right class.
+
+         Put this in a <script src="..."> instead and you reintroduce the
+         bug: the browser paints the default theme, THEN swaps — the
+         "white flash" you see on badly-built dark-mode sites.
+
+         try/catch because localStorage throws in Safari private mode and
+         when cookies are blocked. A theme preference is never worth a
+         white screen of death.
+         ================================================================== -->
+    <script>
+      (function () {
+        try {
+          var saved = localStorage.getItem('theme')
+          var prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches
+          var dark = saved ? saved === 'dark' : prefersDark
+          document.documentElement.classList.toggle('dark', dark)
+          var meta = document.querySelector('meta[name="theme-color"]')
+          if (meta) meta.setAttribute('content', dark ? '#0B0E14' : '#FBF9F3')
+        } catch (e) {
+          /* no preference available — fall through to the light default */
+        }
+      })()
+    </script>
 
     <!-- SEO (TODO: update og:url/canonical once the domain is chosen) -->
     <title>Carol Eunice Gudumotou — Software Engineer · FinTech & Algorithmic Trading</title>
@@ -16,16 +46,17 @@
     <meta property="og:title" content="Carol Eunice Gudumotou — Software Engineer · FinTech & Algorithmic Trading" />
     <meta
       property="og:description"
-      content="Dark-mode developer portfolio: trading systems, research, awards, and collaboration."
+      content="Research-and-engineering portfolio: trading systems, applied ML for PDEs, awards, and ways to collaborate."
     />
     <meta property="og:site_name" content="Carol Eunice Gudumotou" />
 
-    <!-- Fonts: IBM Plex Sans (body) + IBM Plex Mono (terminal/code) — same family as sarshar.dev.
-         display=swap → text renders in a fallback font immediately, then swaps in Plex. -->
+    <!-- Fonts: IBM Plex Sans (UI) + IBM Plex Mono (labels/terminal)
+         + IBM Plex Serif (long-form reading voice — the "paper" feel).
+         display=swap → text renders in a fallback immediately, then swaps. -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,400;0,500;0,600;1,400&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap"
+      href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,400;0,500;0,600;1,400&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&family=IBM+Plex+Serif:ital,wght@0,400;0,500;0,600;1,400&display=swap"
       rel="stylesheet"
     />
   </head>

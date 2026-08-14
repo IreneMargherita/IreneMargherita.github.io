@@ -14,7 +14,7 @@ export default function TerminalWindow({ title = 'bash — 80×24', children, cl
         <span className="terminal-dot bg-[#FF5F57]" aria-hidden="true" />
         <span className="terminal-dot bg-[#FEBC2E]" aria-hidden="true" />
         <span className="terminal-dot bg-[#28C840]" aria-hidden="true" />
-        <span className="ml-2 truncate font-mono text-xs text-mist-600">{title}</span>
+        <span className="ml-2 truncate font-mono text-xs text-fg-faint">{title}</span>
       </div>
       <div className="terminal-body">{children}</div>
     </div>

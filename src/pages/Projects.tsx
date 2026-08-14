@@ -21,8 +21,8 @@ export default function Projects() {
           ))}
         </div>
 
-        <p className="mt-10 max-w-2xl rounded-xl2 border border-sunshine-900 bg-sunshine-900/20 p-4 font-mono text-[13px] leading-relaxed text-mist-300">
-          <span className="text-sunshine-500">note:</span> {projectsNote}
+        <p className="mt-10 max-w-2xl rounded-xl2 border border-accent/60 bg-accent-soft/50 p-4 font-mono text-[13px] leading-relaxed text-fg-muted">
+          <span className="text-accent">note:</span> {projectsNote}
         </p>
       </div>
     </section>

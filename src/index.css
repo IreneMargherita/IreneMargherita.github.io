@@ -2,6 +2,59 @@
 @tailwind components;
 @tailwind utilities;
 
+/* ================================================================== */
+/* THEME TOKENS                                                        */
+/* ------------------------------------------------------------------ */
+/* Every value below is a bare RGB triplet, not a color string.        */
+/* Why: Tailwind wraps them as `rgb(var(--c-bg) / <alpha-value>)`, so   */
+/* `bg-canvas/70` still works. If we stored "#FBF9F3" here, opacity     */
+/* utilities would silently break.                                     */
+/*                                                                     */
+/* :root  = LIGHT ("Lab Paper")      — warm parchment, research-paper  */
+/* .dark  = DARK  ("Midnight Terminal + Sunshine") — unchanged from    */
+/*          the palette you already shipped.                           */
+/* ================================================================== */
+@layer base {
+  :root {
+    --c-bg: 251 249 243; /* #FBF9F3 parchment */
+    --c-bg-soft: 244 241 232; /* #F4F1E8 recessed panels */
+    --c-surface: 255 253 248; /* #FFFDF8 raised cards      */
+    --c-text: 26 24 20; /* #1A1814 near-black, warm  */
+    --c-text-muted: 90 85 75; /* #5A554B  7.0:1 ✓          */
+    --c-text-faint: 110 104 98; /* #6E6862  ~5.3:1 ✓         */
+    --c-line: 214 208 194; /* #D6D0C2 hairlines         */
+    --c-line-strong: 26 24 20; /* #1A1814 the hard 1px box  */
+    --c-accent: 122 98 0; /* #7A6200  5.6:1 ✓ — your sunshine, darkened
+                                     just enough to be legible on paper   */
+    --c-accent-soft: 240 232 200; /* #F0E8C8 accent wash       */
+    --c-accent-ink: 255 253 248; /* text that sits ON accent  */
+    --c-data: 63 125 88; /* #3F7D58 muted forest green (the ai-2027 line) */
+    --c-data-alt: 26 24 20; /* #1A1814 second series     */
+    --c-data-dim: 180 174 160; /* #B4AEA0 third / inactive  */
+
+    color-scheme: light;
+  }
+
+  .dark {
+    --c-bg: 11 14 20; /* #0B0E14 ink-900   */
+    --c-bg-soft: 16 20 29; /* #10141D ink-800   */
+    --c-surface: 21 27 38; /* #151B26 ink-700   */
+    --c-text: 233 238 246; /* #E9EEF6 mist-100  */
+    --c-text-muted: 195 203 216; /* #C3CBD8 mist-300  */
+    --c-text-faint: 166 176 192; /* #A6B0C0 mist-400  */
+    --c-line: 30 36 49; /* #1E2431 ink-600   */
+    --c-line-strong: 42 50 66; /* #2A3242 ink-500   */
+    --c-accent: 255 214 10; /* #FFD60A ★ sunshine */
+    --c-accent-soft: 61 51 0; /* #3D3300 sunshine-900 */
+    --c-accent-ink: 7 9 14; /* #07090E ink-950   */
+    --c-data: 63 185 80; /* #3FB950 signal    */
+    --c-data-alt: 121 192 255; /* #79C0FF syntax.blue */
+    --c-data-dim: 82 92 107; /* #525C6B mist-700  */
+
+    color-scheme: dark;
+  }
+}
+
 /* ------------------------------------------------------------------ */
 /* Base                                                                */
 /* ------------------------------------------------------------------ */
@@ -11,26 +64,38 @@
   }
 
   body {
-    @apply bg-ink-900 font-sans text-mist-300 antialiased;
-    /* Subtle blueprint grid over the deep background — the "engineer's desk" */
+    @apply bg-canvas font-sans text-fg-muted antialiased;
+    /* Blueprint grid — the "engineer's desk". Tuned per theme below. */
     background-image:
-      radial-gradient(ellipse 80% 50% at 50% -10%, rgba(255, 214, 10, 0.06), transparent),
-      linear-gradient(rgba(255, 255, 255, 0.022) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(255, 255, 255, 0.022) 1px, transparent 1px);
+      radial-gradient(ellipse 80% 50% at 50% -10%, rgb(var(--c-accent) / 0.05), transparent),
+      linear-gradient(rgb(var(--c-text) / var(--grid-alpha)) 1px, transparent 1px),
+      linear-gradient(90deg, rgb(var(--c-text) / var(--grid-alpha)) 1px, transparent 1px);
     background-size:
       100% 100%,
       44px 44px,
       44px 44px;
     background-attachment: fixed;
+    /* Colour changes are eased so the toggle feels like a dimmer, not a light switch.
+       Only bg + text: transitioning `all` on <body> is a performance trap. */
+    transition:
+      background-color 260ms ease,
+      color 260ms ease;
+  }
+
+  /* On paper the grid must be a whisper; on midnight it can be louder. */
+  :root {
+    --grid-alpha: 0.035;
+  }
+  .dark {
+    --grid-alpha: 0.022;
   }
 
   ::selection {
-    @apply bg-sunshine-500 text-ink-950;
+    @apply bg-accent text-accent-ink;
   }
 
-  /* Visible keyboard focus everywhere (WCAG) */
   :focus-visible {
-    @apply outline-none ring-2 ring-sunshine-500 ring-offset-2 ring-offset-ink-900 rounded-sm;
+    @apply rounded-sm outline-none ring-2 ring-accent ring-offset-2 ring-offset-canvas;
   }
 
   /* Respect users who ask for less motion (WCAG 2.3.3) */
@@ -48,6 +113,8 @@
 
 /* ------------------------------------------------------------------ */
 /* Reusable component classes (design-system utilities)                */
+/* Written against SEMANTIC tokens → each one is correct in both        */
+/* themes with zero `dark:` variants.                                   */
 /* ------------------------------------------------------------------ */
 @layer components {
   .container-content {
@@ -56,10 +123,17 @@
 
   /* Cards */
   .card {
-    @apply rounded-xl2 border border-ink-600 bg-ink-800/80 shadow-card backdrop-blur-sm;
+    @apply rounded-xl2 border border-line bg-surface/80 backdrop-blur-sm;
+    box-shadow: var(--card-shadow);
+  }
+  :root {
+    --card-shadow: 0 1px 2px rgba(26, 24, 20, 0.05), 0 8px 24px rgba(26, 24, 20, 0.06);
+  }
+  .dark {
+    --card-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
   }
   .card-hover {
-    @apply transition-all duration-200 hover:-translate-y-0.5 hover:border-sunshine-700 hover:shadow-glow-sm;
+    @apply transition-all duration-200 hover:-translate-y-0.5 hover:border-accent/60;
   }
 
   /* Buttons */
@@ -67,18 +141,18 @@
     @apply inline-flex items-center justify-center gap-2 rounded-lg px-5 py-2.5 font-mono text-sm font-medium transition-all duration-200;
   }
   .btn-primary {
-    @apply btn bg-sunshine-500 text-ink-950 hover:bg-sunshine-300 hover:shadow-glow;
+    @apply btn bg-accent text-accent-ink hover:brightness-110;
   }
   .btn-ghost {
-    @apply btn border border-ink-500 text-mist-100 hover:border-sunshine-500 hover:text-sunshine-500;
+    @apply btn border border-line-strong/40 text-fg hover:border-accent hover:text-accent;
   }
 
   /* Mono chip / tag */
   .tag {
-    @apply inline-flex items-center rounded-md border border-ink-500 bg-ink-700/70 px-2 py-0.5 font-mono text-xs text-mist-400;
+    @apply inline-flex items-center rounded-md border border-line bg-canvas-soft px-2 py-0.5 font-mono text-xs text-fg-faint;
   }
-  .tag-yellow {
-    @apply inline-flex items-center rounded-md border border-sunshine-700/60 bg-sunshine-900/30 px-2 py-0.5 font-mono text-xs text-sunshine-400;
+  .tag-accent {
+    @apply inline-flex items-center rounded-md border border-accent/50 bg-accent-soft/50 px-2 py-0.5 font-mono text-xs text-accent;
   }
 
   /* Section spacing rhythm */
@@ -86,15 +160,16 @@
     @apply py-16 sm:py-20;
   }
   .section-divider {
-    @apply border-t border-ink-600/70;
+    @apply border-t border-line;
   }
 
   /* Terminal chrome */
   .terminal {
-    @apply overflow-hidden rounded-xl2 border border-ink-500 bg-ink-950/90 shadow-card;
+    @apply overflow-hidden rounded-xl2 border border-line-strong/30 bg-canvas-soft;
+    box-shadow: var(--card-shadow);
   }
   .terminal-bar {
-    @apply flex items-center gap-2 border-b border-ink-600 bg-ink-800 px-4 py-2.5;
+    @apply flex items-center gap-2 border-b border-line bg-surface px-4 py-2.5;
   }
   .terminal-dot {
     @apply h-3 w-3 rounded-full;
@@ -103,13 +178,57 @@
     @apply px-4 py-4 font-mono text-[13px] leading-relaxed sm:px-5 sm:text-sm;
   }
 
-  /* Yellow glow text for the hero name */
+  /* Accent glow behind the hero name — pointless on paper, so light mode
+     gets a flat color and dark mode keeps the halo. */
   .glow-text {
-    text-shadow: 0 0 28px rgba(255, 214, 10, 0.35);
+    text-shadow: var(--glow-text-shadow);
+  }
+  :root {
+    --glow-text-shadow: none;
+  }
+  .dark {
+    --glow-text-shadow: 0 0 28px rgba(255, 214, 10, 0.35);
   }
 
   /* Underline link */
   .link {
-    @apply text-sunshine-400 underline decoration-sunshine-700 underline-offset-4 transition-colors hover:text-sunshine-300 hover:decoration-sunshine-400;
+    @apply text-accent underline decoration-accent/40 underline-offset-4 transition-colors hover:decoration-accent;
+  }
+
+  /* ---------------- ai-2027 "research instrument" primitives -------- */
+
+  /* The hard-edged bordered box the whole dashboard lives in. Square
+     corners + a 1px near-black rule is what makes it read as an
+     instrument panel rather than a soft UI card. */
+  .panel {
+    @apply border bg-canvas/60;
+    border-color: rgb(var(--c-line-strong) / 0.85);
+  }
+
+  /* A small bordered tile — the Hacking / Coding / Bioweapons squares. */
+  .panel-tile {
+    @apply flex items-center gap-2.5 border px-2.5 py-2;
+    border-color: rgb(var(--c-line-strong) / 0.18);
+  }
+
+  /* The tiny uppercase mono caption used for every label on the panel. */
+  .mono-label {
+    @apply font-mono text-[10px] uppercase leading-none tracking-[0.14em] text-fg-faint;
+  }
+
+  /* The black pill that holds the year on the chart. */
+  .year-pill {
+    @apply inline-block px-2.5 py-1 font-mono text-[11px] font-medium tracking-wide;
+    background-color: rgb(var(--c-line-strong));
+    color: rgb(var(--c-bg));
+  }
+
+  /* Long-form reading column: serif body, generous measure. This is the
+     single biggest reason ai-2027 reads like a paper and not a landing page. */
+  .prose-paper {
+    @apply font-serif text-[1.0625rem] leading-[1.75] text-fg;
+  }
+  .prose-paper p + p {
+    @apply mt-5;
   }
 }

@@ -6,8 +6,8 @@ export default function Footer() {
   return (
     <footer className="section-divider mt-20">
       <div className="container-content flex flex-col items-center gap-4 py-10 text-center">
-        <p className="font-mono text-xs text-mist-600">
-          <span className="text-sunshine-700">{'//'}</span> {footer.line} · © {year}
+        <p className="font-mono text-xs text-fg-faint">
+          <span className="text-accent/60">{'//'}</span> {footer.line} · © {year}
         </p>
 
         <ul className="flex items-center gap-3">
@@ -17,7 +17,7 @@ export default function Footer() {
                 href={s.url}
                 target={s.url.startsWith('http') ? '_blank' : undefined}
                 rel="noreferrer"
-                className="tag transition-colors hover:border-sunshine-600 hover:text-sunshine-400"
+                className="tag transition-colors hover:border-accent/60 hover:text-accent"
                 aria-label={s.label}
                 title={s.label}
               >
@@ -27,7 +27,7 @@ export default function Footer() {
           ))}
         </ul>
 
-        <p className="font-mono text-[11px] text-mist-700">
+        <p className="font-mono text-[11px] text-fg-faint">
           {footer.stack} · {footer.sourceNote}
         </p>
       </div>

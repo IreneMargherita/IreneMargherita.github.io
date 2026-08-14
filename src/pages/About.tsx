@@ -4,7 +4,7 @@ import SectionHeading from '../components/SectionHeading';
 import TerminalWindow from '../components/TerminalWindow';
 
 const SYNTAX_COLOR: Record<string, string> = {
-  blue: 'text-syntax-blue',
+  blue: 'text-data-alt',
   violet: 'text-syntax-violet',
   orange: 'text-syntax-orange',
   green: 'text-syntax-green',
@@ -23,23 +23,23 @@ export default function About() {
           {/* Bio */}
           <div className="space-y-5">
             {about.paragraphs.map((p) => (
-              <p key={p.slice(0, 32)} className="leading-relaxed text-mist-300">
+              <p key={p.slice(0, 32)} className="leading-relaxed text-fg-muted">
                 {p}
               </p>
             ))}
 
             <div className="pt-2">
-              <h3 className="mb-3 font-mono text-sm text-sunshine-500">
-                <span className="text-sunshine-700">{'//'}</span> education
+              <h3 className="mb-3 font-mono text-sm text-accent">
+                <span className="text-accent/60">{'//'}</span> education
               </h3>
               <ul className="space-y-4">
                 {about.education.map((e) => (
                   <li key={e.degree} className="card p-4">
-                    <p className="text-sm font-semibold text-mist-100">{e.degree}</p>
-                    <p className="font-mono text-xs text-mist-400">
+                    <p className="text-sm font-semibold text-fg">{e.degree}</p>
+                    <p className="font-mono text-xs text-fg-faint">
                       {e.school} · {e.years}
                     </p>
-                    {e.details && <p className="mt-1 text-[13px] text-mist-400">{e.details}</p>}
+                    {e.details && <p className="mt-1 text-[13px] text-fg-faint">{e.details}</p>}
                   </li>
                 ))}
               </ul>
@@ -52,18 +52,18 @@ export default function About() {
               {about.currently.map((c) => (
                 <div key={c.cmd} className="mb-3 last:mb-0">
                   <p>
-                    <span className="text-signal">➜</span>{' '}
-                    <span className="text-syntax-blue">~/now</span>{' '}
-                    <span className="text-mist-100">{c.cmd}</span>
+                    <span className="text-data">➜</span>{' '}
+                    <span className="text-data-alt">~/now</span>{' '}
+                    <span className="text-fg">{c.cmd}</span>
                   </p>
-                  <p className="text-sunshine-400">{c.out}</p>
+                  <p className="text-accent">{c.out}</p>
                 </div>
               ))}
             </TerminalWindow>
 
             <div>
-              <h3 className="mb-3 font-mono text-sm text-sunshine-500">
-                <span className="text-sunshine-700">{'//'}</span> toolbox
+              <h3 className="mb-3 font-mono text-sm text-accent">
+                <span className="text-accent/60">{'//'}</span> toolbox
               </h3>
               <div className="grid gap-4 sm:grid-cols-2">
                 {about.skills.map((g) => (
@@ -73,7 +73,7 @@ export default function About() {
                     </p>
                     <ul className="space-y-1 pl-3">
                       {g.items.map((item) => (
-                        <li key={item} className="font-mono text-[13px] text-mist-300">
+                        <li key={item} className="font-mono text-[13px] text-fg-muted">
                           '{item}',
                         </li>
                       ))}
@@ -85,8 +85,8 @@ export default function About() {
             </div>
 
             <div>
-              <h3 className="mb-3 font-mono text-sm text-sunshine-500">
-                <span className="text-sunshine-700">{'//'}</span> beyond the code
+              <h3 className="mb-3 font-mono text-sm text-accent">
+                <span className="text-accent/60">{'//'}</span> beyond the code
               </h3>
               <div className="flex flex-wrap gap-2">
                 {about.interests.map((i) => (

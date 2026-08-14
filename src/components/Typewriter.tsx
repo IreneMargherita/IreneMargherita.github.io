@@ -52,9 +52,9 @@ export default function Typewriter({ lines, speed = 55, hold = 1600 }: Props) {
   const text = reduced ? lines[0] : lines[lineIndex % lines.length].slice(0, charCount);
 
   return (
-    <span className="font-mono text-sunshine-400">
+    <span className="font-mono text-accent">
       {text}
-      <span className="animate-blink text-sunshine-500" aria-hidden="true">
+      <span className="animate-blink text-accent" aria-hidden="true">
         ▍
       </span>
     </span>

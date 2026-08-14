@@ -12,11 +12,11 @@ export default function NotFound() {
         <div className="w-full max-w-xl">
           <TerminalWindow title="error — 404">
             <p>
-              <span className="text-signal">➜</span>{' '}
-              <span className="text-mist-100">cd {pathname}</span>
+              <span className="text-data">➜</span>{' '}
+              <span className="text-fg">cd {pathname}</span>
             </p>
             <p className="mt-1 text-syntax-red">bash: cd: {pathname}: No such file or directory</p>
-            <p className="mt-4 text-mist-400">
+            <p className="mt-4 text-fg-faint">
               The page you're looking for doesn't exist (yet).
             </p>
             <p className="mt-4">

@@ -18,8 +18,8 @@ export default function Contact() {
               href={`mailto:${profile.email}`}
               className="card card-hover block p-6 text-center"
             >
-              <p className="font-mono text-xs text-mist-600">the fastest way</p>
-              <p className="mt-2 break-all font-mono text-lg font-semibold text-sunshine-400">
+              <p className="font-mono text-xs text-fg-faint">the fastest way</p>
+              <p className="mt-2 break-all font-mono text-lg font-semibold text-accent">
                 {profile.email}
               </p>
               <span className="btn-primary mt-4">send an email →</span>
@@ -43,7 +43,7 @@ export default function Contact() {
 
             <div>
               <StatusBadge />
-              <p className="mt-3 font-mono text-xs text-mist-600">
+              <p className="mt-3 font-mono text-xs text-fg-faint">
                 {profile.location} · {profile.timezone}
               </p>
             </div>
@@ -51,16 +51,16 @@ export default function Contact() {
 
           <TerminalWindow title="open_to.sh">
             <p className="mb-2">
-              <span className="text-signal">➜</span> <span className="text-mist-100">./open_to.sh --list</span>
+              <span className="text-data">➜</span> <span className="text-fg">./open_to.sh --list</span>
             </p>
             {contact.openTo.map((o, i) => (
-              <p key={o} className="text-mist-300">
-                <span className="text-sunshine-500">[{i + 1}]</span> {o}
+              <p key={o} className="text-fg-muted">
+                <span className="text-accent">[{i + 1}]</span> {o}
               </p>
             ))}
-            <p className="mt-3 text-mist-600">
+            <p className="mt-3 text-fg-faint">
               exit 0 · replies within 48h
-              <span className="animate-blink text-sunshine-500">▍</span>
+              <span className="animate-blink text-accent">▍</span>
             </p>
           </TerminalWindow>
         </div>
