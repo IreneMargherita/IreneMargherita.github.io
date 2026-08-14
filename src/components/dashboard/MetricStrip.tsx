@@ -8,11 +8,21 @@ function Metric({ label, value, suffix, raw, active }: { label: string; value: n
   const animated = useCountUp(value, active && !raw)
   const shown = raw ? value : Math.round(animated)
 
+  // Years are identifiers, not quantities — `2021` must never render as
+  // "2,021". Only group digits for values that are actually counts.
+  const text = raw ? String(shown) : shown.toLocaleString('en-US')
+
   return (
     <div className="min-w-0">
-      <div className="mono-label truncate">{label}</div>
+      {/* No `truncate`: at this width "Publications" would clip to
+          "Publicati…". Wrapping to two lines is always better than
+          hiding the label. */}
+      {/* min-h reserves room for a second line so every VALUE in the strip
+          shares one baseline, even when only one label wraps. Without it
+          the row goes ragged the moment a label gets long. */}
+      <div className="mono-label !leading-[1.35] min-h-[2.7em]">{label}</div>
       <div className="mt-1 font-mono text-[13px] tabular-nums text-fg">
-        {shown.toLocaleString('en-US')}
+        {text}
         {suffix}
       </div>
     </div>

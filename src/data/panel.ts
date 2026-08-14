@@ -84,7 +84,9 @@ export const stack = [
 
 /** `raw: true` = show the number as-is (years shouldn't count up from 0). */
 export const metrics: { label: string; value: number; suffix: string; raw?: boolean }[] = [
-  { label: 'Publications', value: 1, suffix: '' }, // CONFIRMED
+  // Keep labels ≤ 8 chars or breakable at a space — the strip is 4 narrow
+  // columns and a word like "Publications" has nowhere clean to wrap.
+  { label: 'Papers', value: 1, suffix: '' }, // CONFIRMED
   { label: 'Projects', value: 6, suffix: '' }, // [PLACEHOLDER]
   { label: 'Since', value: 2021, suffix: '', raw: true }, // [PLACEHOLDER]
   { label: 'Open access', value: 100, suffix: '%' }, // CONFIRMED (the CPC paper is OA)

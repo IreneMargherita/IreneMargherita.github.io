@@ -84,10 +84,7 @@ export default function CapabilityGrid({ inView }: { inView: boolean }) {
             className={['panel-tile', inView ? 'animate-pop-in' : 'opacity-0'].join(' ')}
             style={{ animationDelay: `${i * 55}ms` }}
           >
-            <span
-              className="flex h-6 w-6 shrink-0 items-center justify-center"
-              style={{ backgroundColor: 'rgb(var(--c-line-strong))', color: 'rgb(var(--c-bg))' }}
-            >
+            <span className="panel-chip">
               <Glyph name={cap.icon} />
             </span>
             <span className="font-mono text-[11px] leading-tight text-fg">{cap.label}</span>

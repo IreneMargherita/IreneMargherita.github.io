@@ -117,9 +117,12 @@ export default function ForecastChart({ inView }: { inView: boolean }) {
         })}
 
         {/* Inline series label sitting on the curve, ai-2027 style */}
+        {/* Sits BELOW the curves (they climb left→right, so the lower-right
+            quadrant is the only reliably empty space) — a caption that
+            crosses its own data is worse than no caption. */}
         <text
-          x={PAD.left + innerW * 0.52}
-          y={PAD.top + innerH * 0.34}
+          x={PAD.left + innerW * 0.55}
+          y={PAD.top + innerH * 0.96}
           className="fill-fg-faint font-mono"
           style={{
             fontSize: 8,
