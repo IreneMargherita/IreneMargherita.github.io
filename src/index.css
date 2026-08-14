@@ -32,6 +32,18 @@
     --c-data-alt: 26 24 20; /* #1A1814 second series     */
     --c-data-dim: 180 174 160; /* #B4AEA0 third / inactive  */
 
+    /* "Inverted chip" — a solid block that must read as the OPPOSITE of the
+       page. On paper it is black-on-cream; in dark mode it has to flip to
+       cream-on-black or it disappears. A single literal colour cannot do
+       this job, which is exactly why it gets its own token. */
+    --c-invert: 26 24 20;
+    --c-invert-ink: 251 249 243;
+    /* The small icon squares. Light mode matches ai-2027 (solid black).
+       Dark mode goes terminal-chip instead of blinding white — six white
+       squares would out-shout the chart they sit next to. */
+    --c-chip: 26 24 20;
+    --c-chip-ink: 251 249 243;
+
     color-scheme: light;
   }
 
@@ -50,6 +62,11 @@
     --c-data: 63 185 80; /* #3FB950 signal    */
     --c-data-alt: 121 192 255; /* #79C0FF syntax.blue */
     --c-data-dim: 82 92 107; /* #525C6B mist-700  */
+
+    --c-invert: 233 238 246; /* #E9EEF6 → dark text on a light pill */
+    --c-invert-ink: 11 14 20;
+    --c-chip: 21 27 38; /* #151B26 surface */
+    --c-chip-ink: 255 214 10; /* #FFD60A sunshine glyph */
 
     color-scheme: dark;
   }
@@ -216,11 +233,18 @@
     @apply font-mono text-[10px] uppercase leading-none tracking-[0.14em] text-fg-faint;
   }
 
-  /* The black pill that holds the year on the chart. */
+  /* The pill that holds the year on the chart. */
   .year-pill {
     @apply inline-block px-2.5 py-1 font-mono text-[11px] font-medium tracking-wide;
-    background-color: rgb(var(--c-line-strong));
-    color: rgb(var(--c-bg));
+    background-color: rgb(var(--c-invert));
+    color: rgb(var(--c-invert-ink));
+  }
+
+  /* The solid icon square inside a panel tile. */
+  .panel-chip {
+    @apply flex h-6 w-6 shrink-0 items-center justify-center;
+    background-color: rgb(var(--c-chip));
+    color: rgb(var(--c-chip-ink));
   }
 
   /* Long-form reading column: serif body, generous measure. This is the
