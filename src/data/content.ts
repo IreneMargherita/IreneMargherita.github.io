@@ -142,9 +142,12 @@ export interface NavItem {
 /* ------------------------------ Content ---------------------------- */
 
 export const profile = {
-  // Matches the publication record (C. E. Gudumotou) — keep the name identical
-  // everywhere reviewers might cross-check: paper, Scholar, LinkedIn, this site.
-  name: 'Carol Eunice Gudumotou',
+  // Correct legal spelling: Gudumotu. NOTE: the CPC journal byline misspells
+  // it "Gudumotou" (extra o). That spelling survives ONLY inside the
+  // publication citation below, because a citation must match the printed
+  // record — everywhere else on the site uses the real name. If the journal
+  // issues a corrigendum, update the citation and delete this comment.
+  name: 'Carol Eunice Gudumotu',
   firstName: 'Carol',
   initials: 'CG',
   title: 'Software Engineer · FinTech & Algorithmic Trading',
@@ -178,8 +181,6 @@ export const nav: NavItem[] = [
   { label: 'projects', to: '/projects' },
   { label: 'experience', to: '/experience' },
   { label: 'research', to: '/research' },
-  { label: 'awards', to: '/awards' },
-  { label: 'testimonials', to: '/testimonials' },
   { label: 'contact', to: '/contact' },
 ];
 
@@ -188,7 +189,7 @@ export const stats: Stat[] = [
   { value: '4+', label: 'years writing software', hint: '[Placeholder]' },
   { value: '12', label: 'projects shipped', hint: '[Placeholder]' },
   { value: '1', label: 'peer-reviewed publication' },
-  { value: '2', label: 'awards & honors', hint: '[Placeholder]' },
+  { value: '34', label: 'public repositories', hint: 'github.com/IreneMargherita' },
 ];
 
 /** The "reviewing my credentials?" band on the home page */
@@ -202,16 +203,6 @@ export const evidenceLinks: EvidenceLink[] = [
     label: 'Scholarly work',
     description: 'Publications, preprints & technical talks',
     to: '/research',
-  },
-  {
-    label: 'Awards & press',
-    description: 'Recognition, media mentions, judging & memberships',
-    to: '/awards',
-  },
-  {
-    label: 'Recommendations',
-    description: 'What professors & collaborators say',
-    to: '/testimonials',
   },
 ];
 
@@ -425,11 +416,14 @@ const publications: Publication[] = [
     title: 'Deep operator networks for Bayesian parameter estimation in PDEs',
     venue: 'Computer Physics Communications, Vol. 317, Art. 109853 (Elsevier)',
     year: '2025',
-    authors: 'A. Raj, S. Bun, K. Srinivasa, C. E. Gudumotou, A. Sarshar',
+    // Byline reproduced EXACTLY as published — "Gudumotou" is the journal's
+    // misspelling of Gudumotu; do not "fix" it here or the citation stops
+    // matching the DOI record.
+    authors: 'A. Raj, S. Bun, K. Srinivasa, C. E. Gudumotou [sic], A. Sarshar',
     type: 'journal',
     link: 'https://doi.org/10.1016/j.cpc.2025.109853',
     preprint: 'https://arxiv.org/abs/2501.10684',
-    note: 'Open access · Special issue "Advances in Physics-Aware Machine Learning"',
+    note: 'Open access · Special issue "Advances in Physics-Aware Machine Learning" · Byline misspells the author name; correct spelling is Gudumotu',
   },
 ];
 
@@ -545,7 +539,7 @@ export const contact = {
 };
 
 export const footer = {
-  line: 'designed & built by Carol Eunice Gudumotou',
+  line: 'designed & built by Carol Eunice Gudumotu',
   stack: 'React 18 · TypeScript · Vite · Tailwind',
   sourceNote: 'v0.1.0 — MVP',
 };
