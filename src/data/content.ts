@@ -177,9 +177,13 @@ export const profile = {
 
 export const nav: NavItem[] = [
   { label: 'home', to: '/' },
+  { label: 'about', to: '/about' },
   { label: 'projects', to: '/projects' },
   { label: 'experience', to: '/experience' },
   { label: 'research', to: '/research' },
+  { label: 'awards', to: '/awards' },
+  { label: 'testimonials', to: '/testimonials' },
+  { label: 'contact', to: '/contact' },
 ];
 
 /** Home page stats row — TODO: replace with your real numbers */
@@ -201,6 +205,16 @@ export const evidenceLinks: EvidenceLink[] = [
     label: 'Scholarly work',
     description: 'Publications, preprints & technical talks',
     to: '/research',
+  },
+  {
+    label: 'Awards & press',
+    description: 'Recognition, media mentions, judging & memberships',
+    to: '/awards',
+  },
+  {
+    label: 'Recommendations',
+    description: 'What professors & collaborators say',
+    to: '/testimonials',
   },
 ];
 
