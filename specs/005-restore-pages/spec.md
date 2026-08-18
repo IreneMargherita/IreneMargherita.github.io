@@ -1,8 +1,10 @@
 # Spec 005 — Restore the Evidence Pages
 
-**Status:** ✅ Implemented 2026-08-18 · **Decision by:** Carol
-**Reverses:** the page retirements in `70e4687` (awards, testimonials) and
-`a531f57` (about, contact). **Keeps:** everything else those commits added
+**Status:** ⛔ REVERSED same day by spec 006 — Carol clarified the original
+page deletions were intentional; the lean site is the chosen design. This spec
+stays in the record because checkpoints are history, not just current truth.
+**Reversed:** the page retirements in `70e4687` (awards, testimonials) and
+`a531f57` (about, contact). **Kept:** everything else those commits added
 (dual theme, live GitHub panel, surname fix, footer copy decisions).
 
 ## 1. Why

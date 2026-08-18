@@ -43,9 +43,11 @@ export default function Home() {
               <Link to="/projects" className="btn-primary">
                 view projects →
               </Link>
-              <Link to="/contact" className="btn-ghost">
+              {/* /contact page retired — email directly. A mailto: is a plain
+                  <a>; <Link> is only for in-app routes. */}
+              <a href={`mailto:${profile.email}`} className="btn-ghost">
                 get in touch
-              </Link>
+              </a>
             </div>
 
             <div className="mt-6">
@@ -116,9 +118,6 @@ export default function Home() {
               <Link to="/research" className="link font-mono text-sm">
                 read the research →
               </Link>
-              <Link to="/about" className="link font-mono text-sm">
-                more about me →
-              </Link>
             </div>
           </div>
 
@@ -175,7 +174,9 @@ export default function Home() {
             title="Reviewing my credentials?"
             lead="Investors, researchers, and immigration reviewers — everything you need is organized below."
           />
-          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+          {/* Two cards now (awards & testimonials pages retired) — a 2-col
+              grid; four columns would leave a half-empty row. */}
+          <div className="grid gap-4 sm:grid-cols-2">
             {evidenceLinks.map((e) => (
               <Link key={e.to} to={e.to} className="card card-hover group p-5">
                 <p className="font-mono text-sm font-semibold text-accent">{e.label} →</p>

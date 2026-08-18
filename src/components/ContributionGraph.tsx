@@ -1,18 +1,15 @@
+import { useContributions } from '../hooks/useContributions';
+import { GITHUB_USER } from '../data/panel';
+
 /**
- * GitHub-style contribution heatmap, re-skinned in sunshine yellow.
- * 52 weeks × 7 days, decorative (placeholder data for the MVP — a real
- * GitHub-API version is backlog item B4).
+ * GitHub contribution heatmap, re-skinned in sunshine yellow — now LIVE.
+ * Real calendar data via useContributions (spec 006); if the data source is
+ * unreachable, the seeded placeholder below renders instead, clearly labeled.
  *
- * Two lessons hiding in here:
- *
- * 1. SEEDED randomness. `Math.random()` gives different output every render,
- *    which makes UI flicker and tests impossible. mulberry32 is a tiny PRNG:
- *    same seed in → same "random" sequence out, forever. Determinism makes
- *    the component a pure function of its props.
- *
- * 2. SEQUENTIAL color ramp. A "more → less" scale should vary lightness
- *    within ONE hue (dark ink → dim gold → full sunshine), so intensity is
- *    readable at a glance — never a rainbow.
+ * Lessons that remain true in both modes:
+ * 1. SEEDED randomness for the fallback — deterministic UI, no flicker.
+ * 2. SEQUENTIAL color ramp — one hue, five lightness steps, instantly legible.
+ * 3. GRACEFUL DEGRADATION — third-party outage ≠ broken site.
  */
 
 const WEEKS = 52;
@@ -30,28 +27,27 @@ function mulberry32(seed: number) {
   };
 }
 
-function buildCells(): number[][] {
+function buildFallback(): number[][] {
   const rand = mulberry32(20260804); // fixed seed = identical graph every render
   const weeks: number[][] = [];
-
   for (let w = 0; w < WEEKS; w++) {
     const days: number[] = [];
-    // a slow seasonal wave so activity looks organic, not uniform noise
     const wave = 0.55 + 0.45 * Math.sin((w / WEEKS) * Math.PI * 2.3 + 1.2);
     for (let d = 0; d < DAYS; d++) {
-      const weekdayBoost = d > 0 && d < 6 ? 1 : 0.45; // lighter weekends
+      const weekdayBoost = d > 0 && d < 6 ? 1 : 0.45;
       const r = rand() * wave * weekdayBoost;
-      const level = r > 0.52 ? 4 : r > 0.38 ? 3 : r > 0.24 ? 2 : r > 0.12 ? 1 : 0;
-      days.push(level);
+      days.push(r > 0.52 ? 4 : r > 0.38 ? 3 : r > 0.24 ? 2 : r > 0.12 ? 1 : 0);
     }
     weeks.push(days);
   }
   return weeks;
 }
 
-const CELLS = buildCells();
+const FALLBACK = buildFallback();
 
 export default function ContributionGraph() {
+  const live = useContributions();
+
   return (
     <div className="card overflow-x-auto p-5">
       <div className="mb-3 flex items-center justify-between gap-4">
@@ -59,22 +55,49 @@ export default function ContributionGraph() {
           <span className="text-accent">$</span> git log --graph — a year of building
         </p>
         <p className="hidden font-mono text-[11px] text-fg-faint sm:block">
-          placeholder data · wire to GitHub API later
+          {live ? (
+            <>
+              <span className="text-data">●</span> live · {live.total} contributions ·{' '}
+              {GITHUB_USER}
+            </>
+          ) : (
+            'placeholder · live data loads once online'
+          )}
         </p>
       </div>
 
       <div
         className="flex min-w-[640px] gap-[3px]"
         role="img"
-        aria-label="Decorative contribution activity heatmap"
+        aria-label={
+          live
+            ? `GitHub contribution heatmap: ${live.total} contributions in the last year`
+            : 'Decorative contribution activity heatmap (placeholder)'
+        }
       >
-        {CELLS.map((week, w) => (
-          <div key={w} className="flex flex-col gap-[3px]">
-            {week.map((level, d) => (
-              <span key={d} className={`h-[10px] w-[10px] rounded-[2px] ${RAMP[level]}`} />
+        {live
+          ? live.weeks.map((week, w) => (
+              <div key={w} className="flex flex-col gap-[3px]">
+                {week.map((day, d) =>
+                  day ? (
+                    <span
+                      key={d}
+                      className={`h-[10px] w-[10px] rounded-[2px] ${RAMP[day.level]}`}
+                      title={`${day.count} contribution${day.count === 1 ? '' : 's'} on ${day.date}`}
+                    />
+                  ) : (
+                    <span key={d} className="h-[10px] w-[10px]" />
+                  ),
+                )}
+              </div>
+            ))
+          : FALLBACK.map((week, w) => (
+              <div key={w} className="flex flex-col gap-[3px]">
+                {week.map((level, d) => (
+                  <span key={d} className={`h-[10px] w-[10px] rounded-[2px] ${RAMP[level]}`} />
+                ))}
+              </div>
             ))}
-          </div>
-        ))}
       </div>
 
       <div className="mt-3 flex items-center justify-end gap-1.5 font-mono text-[11px] text-fg-faint">
